@@ -37,6 +37,7 @@ def log_pi_syslog():
 
     # start thread to to process syslog's new entries
     try:
+        print('Trying start get_new_line thread')
         _thread.start_new_thread(get_new_line, (log_data,))
     except:
         print ("Error: unable to start thread")
@@ -52,7 +53,6 @@ def log_pi_syslog():
 
 
 def log_fake_new_clients():
-    print('log_fake_new_clients started')
     # log fake new itallian clients by generating random names
     while True:
         #print(f'{str(datetime.datetime.utcnow())} : New Client {fake.name()}')
