@@ -1,0 +1,5 @@
+Oct 21 10:55:31 matriuxpi rngd[385]: stats: Lowest ready-buffers level: 2
+Oct 21 10:55:31 matriuxpi rngd[385]: stats: Entropy starvations: 0
+Oct 21 10:55:31 matriuxpi rngd[385]: stats: Time spent starving for entropy: (min=0; avg=0.000; max=0)us
+Oct 21 11:09:01 matriuxpi systemd[1]: Started Clean php session files.
+Oct 21 11:09:01 matriuxpi systemd[1]: Started Clean php session files. next line
