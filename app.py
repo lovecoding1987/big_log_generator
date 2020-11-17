@@ -55,7 +55,7 @@ def log_fake_new_clients():
     print('log_fake_new_clients started')
     # log fake new itallian clients by generating random names
     while True:
-        print(f'{str(datetime.datetime.utcnow())} : New Client {fake.name()}')
+        #print(f'{str(datetime.datetime.utcnow())} : New Client {fake.name()}')
         client.ingest_messages([f'{str(datetime.datetime.utcnow())} : New Client {fake.name()}'])
         #time.sleep(randint(1, 5))
         time.sleep(0.001)
@@ -63,7 +63,6 @@ def log_fake_new_clients():
 
 # start thread to log fake new itallians
 try:
-   print('log_fake_new_clients thread started')
    _thread.start_new_thread(log_fake_new_clients, ())
 except:
    print ("Error: unable to start thread")
