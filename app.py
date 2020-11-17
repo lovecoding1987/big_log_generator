@@ -36,14 +36,7 @@ def log_pi_syslog():
                 q.put(line)
 
     # start thread to to process syslog's new entries
-    try:
-        print('Trying start get_new_line thread')
-        _thread.start_new_thread(get_new_line, (log_data,))
-    except:
-        print ("Error: unable to start thread")
-
-    while 1:
-        pass
+    _thread.start_new_thread(get_new_line, (log_data,))
 
     while True:
         # check for new entries and queue then wait for the next
