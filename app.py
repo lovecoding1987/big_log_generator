@@ -48,8 +48,8 @@ def log_pi_syslog():
 def log_fake_new_clients():
     # log fake new itallian clients by generating random names
     while True:
-        print(f'{str(datetime.datetime.utcnow())} : New Client {fake.name()}')
-        client.ingest_messages([f'{str(datetime.datetime.utcnow())} : New Client {fake.name()}'])
+        # print(f'{str(datetime.datetime.utcnow())} : New Client {fake.name()}')
+        client.ingest_messages([f'{str(datetime.datetime.utcnow())} : New fake message {fake.text()}'])
         #time.sleep(randint(1, 5))
         time.sleep(0.001)
     
