@@ -24,6 +24,7 @@ def log_pi_syslog():
 
     def get_new_line(q):
         # process log you can set syslog.txt to test with
+        print('>>> Open /var/log/syslog .......')
         file = open('/var/log/syslog', 'r')
         while True:
             where = file.tell()
@@ -35,11 +36,18 @@ def log_pi_syslog():
                 q.put(line)
 
     # start thread to to process syslog's new entries
-    _thread.start_new_thread(get_new_line, (log_data,))
+    try:
+        _thread.start_new_thread(get_new_line, (log_data,))
+    except:
+        print ("Error: unable to start thread")
+
+    while 1:
+        pass
 
     while True:
         # check for new entries and queue then wait for the next
         new_log = log_data.get()
+        print(new_log)
         client.ingest_messages([new_log])
 
 
