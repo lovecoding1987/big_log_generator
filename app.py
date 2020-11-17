@@ -54,7 +54,7 @@ def log_fake_new_clients():
         time.sleep(0.001)
     
 
-log_pi_syslog()
-
 # start thread to log fake new itallians
 _thread.start_new_thread(log_fake_new_clients, ())
+
+log_pi_syslog()
