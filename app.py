@@ -7,6 +7,7 @@ import os
 from faker import Faker
 from random import randint
 import _thread
+import socket
 
 fake = Faker('it_IT')
 
@@ -15,6 +16,8 @@ client = HumioIngestClient(
     base_url="http://54.252.31.50:8080",
     ingest_token="a1a539c8-c808-49fa-9721-b1cc3fc3503f")
 
+hostname = socket.gethostname()
+ipaddress = socket.gethostbyname(hostname)
 
 def log_pi_syslog():
     # log raspberry pi syslog
@@ -42,14 +45,14 @@ def log_pi_syslog():
         # check for new entries and queue then wait for the next
         new_log = log_data.get()
         print(new_log)
-        client.ingest_messages([new_log])
+        client.ingest_messages([f'{ipaddress} - {new_log}'])
 
 
 def log_fake_new_clients():
     # log fake new itallian clients by generating random names
     while True:
         # print(f'{str(datetime.datetime.utcnow())} : New Client {fake.name()}')
-        client.ingest_messages([f'{str(datetime.datetime.utcnow())} : New fake message {fake.text()}'])
+        client.ingest_messages([f'{ipaddress} - {str(datetime.datetime.utcnow())} : New fake message {fake.text()}'])
         #time.sleep(randint(1, 5))
         time.sleep(0.001)
     
