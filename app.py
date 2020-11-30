@@ -1,20 +1,27 @@
+from dotenv import load_dotenv
+load_dotenv()
+
 import queue
 
 from humiolib.HumioClient import HumioIngestClient
 import time
 import datetime
-import os
 from faker import Faker
 from random import randint
 import _thread
 import socket
+import os
 
 fake = Faker('it_IT')
 
 # client to communicate with humio
 client = HumioIngestClient(
-    base_url="http://13.211.167.47:8080",
-    ingest_token="03cc2b08-e797-40a2-b635-59e11fc393fc")
+    base_url=os.environ.get("base_url") or "http://13.211.167.47:8080",
+    ingest_token=os.environ.get("ingest_token") or "03cc2b08-e797-40a2-b635-59e11fc393fc"
+)
+
+print(os.environ.get("base_url") or "http://13.211.167.47:8080")
+exit
 
 hostname = socket.gethostname()
 ipaddress = socket.gethostbyname(hostname)
@@ -54,7 +61,7 @@ def log_fake_new_clients():
         # print(f'{str(datetime.datetime.utcnow())} : New Client {fake.name()}')
         client.ingest_messages([f'{ipaddress} - {str(datetime.datetime.utcnow())} : New fake message {fake.text()}'])
         #time.sleep(randint(1, 5))
-        time.sleep(0.001)
+        time.sleep(0.1)
     
 
 # start thread to log fake new itallians
