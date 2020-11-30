@@ -14,14 +14,17 @@ import os
 
 fake = Faker('it_IT')
 
+base_url=os.environ.get("base_url") or "http://13.211.167.47:8080"
+ingest_token=os.environ.get("ingest_token") or "03cc2b08-e797-40a2-b635-59e11fc393fc"
+print('>>>>>>>>>>>>>>> base_url', base_url)
+print('>>>>>>>>>>>>>>> ingest_token', ingest_token)
 # client to communicate with humio
 client = HumioIngestClient(
-    base_url=os.environ.get("base_url") or "http://13.211.167.47:8080",
-    ingest_token=os.environ.get("ingest_token") or "03cc2b08-e797-40a2-b635-59e11fc393fc"
+    base_url=base_url,
+    ingest_token=ingest_token
 )
 
-print(os.environ.get("base_url") or "http://13.211.167.47:8080")
-exit
+
 
 hostname = socket.gethostname()
 ipaddress = socket.gethostbyname(hostname)
