@@ -52,7 +52,7 @@ def log_pi_syslog():
         # check for new entries and queue then wait for the next
         new_log = log_data.get()
         print(new_log)
-        client.ingest_messages([f'{ipaddress} - {new_log}'])
+        client.ingest_messages([new_log])
 
 
 def log_fake_new_clients():

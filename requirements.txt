@@ -1,2 +1,3 @@
 faker
 humiolib
+python-dotenv
