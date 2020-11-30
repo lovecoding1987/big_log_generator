@@ -13,7 +13,7 @@ fake = Faker('it_IT')
 
 # client to communicate with humio
 client = HumioIngestClient(
-    base_url="http://13.238.117.66:8080",
+    base_url="http://13.211.167.47:8080",
     ingest_token="03cc2b08-e797-40a2-b635-59e11fc393fc")
 
 hostname = socket.gethostname()
