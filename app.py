@@ -54,7 +54,7 @@ def log_pi_syslog():
     while True:
         # check for new entries and queue then wait for the next
         new_log = log_data.get()
-        print(new_log)
+        #print(new_log)
         client.ingest_messages([new_log])
 
 
