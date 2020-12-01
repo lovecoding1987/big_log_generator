@@ -1,6 +1,6 @@
 name: Apache General Access
 file: /var/log/custom/apache_access.log
-format: "{log_ip} - - [{log_time} +0000] \"{log_method} {log_path} HTTP/1.1\" {log_status} {log_bytes} \"{log_referer}\" \"{log_useragent}\""
+format: "{log_ip} - - [{log_time} +0000] \"{log_method} {log_path} HTTP/1.1\" {log_status} {log_bytes} {log_referer} \"{log_useragent}\""
 frequency:
   seconds: 5
 offset:
@@ -40,17 +40,17 @@ fields:
   log_referer:
     type: chance
     choices:
-      - option: -
+      - option: "-"
         weight: 0.5
-      - option: https://www.google.com/
+      - option: "https://www.google.com/"
         weight: 0.1
-      - option: https://developer.apple.com/
+      - option: "https://developer.apple.com/"
         weight: 0.1
-      - option: https://janakiev.com/
+      - option: "https://janakiev.com/"
         weight: 0.1
-      - option: https://www.amazon.com/
+      - option: "https://www.amazon.com/"
         weight: 0.1
-      - option: https://www.ebay.com/
+      - option: "https://www.ebay.com/"
         weight: 0.1
   log_useragent:
     type: enum
