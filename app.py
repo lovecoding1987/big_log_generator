@@ -37,8 +37,8 @@ def log_pi_syslog():
 
     def get_new_line(q):
         # process log you can set syslog.txt to test with
-        print('>>> Open /var/log/syslog .......')
-        file = open('/var/log/syslog', 'r')
+        print('>>> Open /var/log/custom/apache_access.log .......')
+        file = open('/var/log/custom/apache_access.log', 'r')
         while True:
             where = file.tell()
             line = file.readline()
