@@ -1,6 +1,6 @@
 name: Apache General Access
 file: /var/log/custom/apache_access.log
-format: "{log_ip} - - [{log_time} +0000] \"{log_method} {log_path} HTTP/1.1\" {log_status} {log_bytes} {log_referer} \"{log_useragent}\""
+format: "{log_ip} - - [{log_time} +0000] \"{log_method} {log_path} HTTP/1.1\" {log_status} {log_bytes} \"{log_referer}\" \"{log_useragent}\""
 frequency:
   seconds: 5
 offset:
