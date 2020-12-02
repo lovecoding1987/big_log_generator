@@ -22,7 +22,7 @@ def log_pi():
     sys_log_q = queue.Queue()
 
     def get_new_line_sys(q):
-        file = open('./patterns/syslog')
+        file = open(os.getcwd() + '/patterns/syslog')
         lines = file.readlines()
         length = len(lines)
         while True:
