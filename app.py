@@ -45,8 +45,6 @@ def get_new_line_syslog(q):
         q.put(line)
         time.sleep(uniform(0.01, 0.05))
         
-#_thread.start_new_thread(get_new_line_syslog, (syslog_q,))
-
 def send_accesslog(q):
     while True:    
         new_log_access = q.get()
