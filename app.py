@@ -1,8 +1,9 @@
+from os import access
 from dotenv import load_dotenv
 load_dotenv()
 
 import queue
-
+import datetime
 from humiolib.HumioClient import HumioIngestClient
 import time
 import datetime
@@ -11,6 +12,8 @@ from random import randint
 import _thread
 import socket
 import os
+import random
+
 
 fake = Faker('it_IT')
 
@@ -25,49 +28,73 @@ client = HumioIngestClient(
 )
 
 
-
 hostname = socket.gethostname()
 ipaddress = socket.gethostbyname(hostname)
 
-def log_pi_syslog():
-    # log raspberry pi syslog
-
+def log_pi():
     # queue logs to avoid missing any
-    log_data = queue.Queue()
+    access_log_q = queue.Queue()
+    sys_log_q = queue.Queue()
 
-    def get_new_line(q):
+    def get_new_line_sys(q):
         # process log you can set syslog.txt to test with
-        print('>>> Open /var/log/custom/apache_access.log .......')
-        file = open('/var/log/custom/apache_access.log', 'r')
+        file = open('patterns/syslog')
+        lines = file.readlines()
+        length = len(lines)
         while True:
-            where = file.tell()
-            line = file.readline()
-            if not line:
-                time.sleep(1)
-                file.seek(where)
-            else:
-                q.put(line)
+            line = lines[int(random.uniform(0, length-1))]
+            q.put(line)
+            
 
+    def get_new_line_access(q):
+         # process log you can set accesslog.txt to test with
+        file = open('patterns/accesslog')
+        lines = file.readlines()
+        lenght = len(lines)
+        while True:
+            line = lines[int(random.uniform(0, lenght-1))]
+            q.put(line)
+            
     # start thread to to process syslog's new entries
-    _thread.start_new_thread(get_new_line, (log_data,))
+    _thread.start_new_thread(get_new_line_sys, (sys_log_q,))
+    _thread.start_new_thread(get_new_line_access, (access_log_q,))
 
     while True:
         # check for new entries and queue then wait for the next
-        new_log = log_data.get()
-        #print(new_log)
-        client.ingest_messages([new_log])
+        new_log_sys = sys_log_q.get()
+        new_cur_sys = changeToCurrentTime(new_log_sys, 'sys')
+        print('>>>>syslog', new_cur_sys)
+        # client.ingest_messages([new_log_sys])
 
+        new_log_access = access_log_q.get()
+        new_cur_access = changeToCurrentTime(new_log_access, 'access')
+        print('>>>>accesslog', new_cur_access)
+        # client.ingest_messages([new_log_access])
 
-def log_fake_new_clients():
-    # log fake new itallian clients by generating random names
-    while True:
-        # print(f'{str(datetime.datetime.utcnow())} : New Client {fake.name()}')
-        client.ingest_messages([f'{ipaddress} - {str(datetime.datetime.utcnow())} : New fake message {fake.text()}'])
-        #time.sleep(randint(1, 5))
-        time.sleep(0.1)
+        time.sleep(0.01)
     
 
-# start thread to log fake new itallians
-#_thread.start_new_thread(log_fake_new_clients, ())
+def changeToCurrentTime(strOld, mode):
+    if mode == 'access':
+        substr = strOld[strOld.find('[')+1 : strOld.find('[')+21]
+        return strOld.replace(substr, getCurrentTime(mode)) 
+    elif mode == 'sys':
+        substr = strOld[ : 15]
+        return strOld.replace(substr, getCurrentTime(mode))
 
-log_pi_syslog()
+
+def getCurrentTime(mode): 
+    if mode == 'access':
+        today = datetime.datetime.today().strftime("%d/%b/%Y")   
+        now = datetime.datetime.now().strftime("%H:%M:%S")
+        return ( today + ':' + now )
+    elif mode == 'sys':
+        today = datetime.datetime.today().strftime("%b %d")   
+        now = datetime.datetime.now().strftime("%H:%M:%S")
+        return ( today + ' ' + now )
+
+
+log_pi()
+
+
+
