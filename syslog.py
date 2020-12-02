@@ -26,8 +26,10 @@ def log_pi():
         lines = file.readlines()
         length = len(lines)
         while True:
-            line = lines[int(random.uniform(0, length-1))]
-            q.put(line)
+            linenumber = int(random.uniform(0, length-1))
+            line = lines[linenumber]
+            q.put(line) 
+            time.sleep(0.01)
             
 
     _thread.start_new_thread(get_new_line_sys, (sys_log_q,))
@@ -36,9 +38,7 @@ def log_pi():
         new_log_sys = sys_log_q.get()
         new_cur_sys = changeToCurrentTime(new_log_sys, 'sys')
         #print('>>>>syslog', new_cur_sys)
-        client.ingest_messages([new_cur_sys])        
-
-        time.sleep(0.01)
+        client.ingest_messages([new_cur_sys])  
 
 log_pi()
 

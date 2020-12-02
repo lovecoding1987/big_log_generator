@@ -28,8 +28,10 @@ def log_pi():
         lines = file.readlines()
         lenght = len(lines)
         while True:
-            line = lines[int(random.uniform(0, lenght-1))]
+            linenumber = int(random.uniform(0, lenght-1))
+            line = lines[linenumber]
             q.put(line)
+            time.sleep(0.01)
             
     _thread.start_new_thread(get_new_line_access, (access_log_q,))
 
@@ -39,8 +41,6 @@ def log_pi():
         new_cur_access = changeToCurrentTime(new_log_access, 'access')
         #print('>>>>accesslog', new_cur_access)
         client.ingest_messages([new_cur_access])
-
-        time.sleep(0.01)
 
 
 log_pi()
