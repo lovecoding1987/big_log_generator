@@ -56,20 +56,20 @@ def log_pi():
             q.put(line)
             
     # start thread to to process syslog's new entries
-    _thread.start_new_thread(get_new_line_sys, (sys_log_q,))
+    #_thread.start_new_thread(get_new_line_sys, (sys_log_q,))
     _thread.start_new_thread(get_new_line_access, (access_log_q,))
 
     while True:
         # check for new entries and queue then wait for the next
-        new_log_sys = sys_log_q.get()
-        new_cur_sys = changeToCurrentTime(new_log_sys, 'sys')
+        #new_log_sys = sys_log_q.get()
+        #new_cur_sys = changeToCurrentTime(new_log_sys, 'sys')
         #print('>>>>syslog', new_cur_sys)
-        client.ingest_messages([new_log_sys])
+        #client.ingest_messages([new_cur_sys])
 
         new_log_access = access_log_q.get()
         new_cur_access = changeToCurrentTime(new_log_access, 'access')
         #print('>>>>accesslog', new_cur_access)
-        client.ingest_messages([new_log_access])
+        client.ingest_messages([new_cur_access])
 
         time.sleep(0.01)
     
