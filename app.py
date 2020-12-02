@@ -63,13 +63,13 @@ def log_pi():
         # check for new entries and queue then wait for the next
         new_log_sys = sys_log_q.get()
         new_cur_sys = changeToCurrentTime(new_log_sys, 'sys')
-        print('>>>>syslog', new_cur_sys)
-        # client.ingest_messages([new_log_sys])
+        #print('>>>>syslog', new_cur_sys)
+        client.ingest_messages([new_log_sys])
 
         new_log_access = access_log_q.get()
         new_cur_access = changeToCurrentTime(new_log_access, 'access')
-        print('>>>>accesslog', new_cur_access)
-        # client.ingest_messages([new_log_access])
+        #print('>>>>accesslog', new_cur_access)
+        client.ingest_messages([new_log_access])
 
         time.sleep(0.01)
     
