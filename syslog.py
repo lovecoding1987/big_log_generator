@@ -5,7 +5,6 @@ import queue
 from humiolib.HumioClient import HumioIngestClient
 import time
 import _thread
-import socket
 import os
 import random
 from common import changeToCurrentTime
@@ -18,9 +17,6 @@ client = HumioIngestClient(
     ingest_token=ingest_token
 )
 
-
-hostname = socket.gethostname()
-ipaddress = socket.gethostbyname(hostname)
 
 def log_pi():
     sys_log_q = queue.Queue()
