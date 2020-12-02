@@ -24,7 +24,7 @@ def log_pi():
             
 
     def get_new_line_access(q):
-        file = open('patterns/accesslog')
+        file = open('./patterns/accesslog')
         lines = file.readlines()
         lenght = len(lines)
         while True:
