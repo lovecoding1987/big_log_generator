@@ -33,7 +33,7 @@ def get_new_line_accesslog(q):
         linenumber = randint(0, length-1)
         line = lines[linenumber]
         q.put(line)
-        time.sleep(uniform(0.01, 0.05))
+        time.sleep(uniform(0.001, 0.005))
 
 def get_new_line_syslog(q):
     file = open('/opt/dummydata/patterns/syslog')
@@ -43,7 +43,7 @@ def get_new_line_syslog(q):
         linenumber = randint(0, length-1)
         line = lines[linenumber]
         q.put(line)
-        time.sleep(uniform(0.01, 0.05))
+        time.sleep(uniform(0.001, 0.005))
         
 def send_accesslog(q):
     while True:    
