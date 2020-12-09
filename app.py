@@ -50,14 +50,14 @@ def send_accesslog(q):
         new_log_access = q.get()
         new_cur_access = changeToCurrentTime(new_log_access, 'access')
         #print('>>>>>>>>>>>>', new_cur_access)
-        accesslog_client.ingest_messages([new_cur_access])
+        accesslog_client.ingest_messages([new_cur_access], None, {'source_type': 'dummy-accesslog'})
 
 def send_syslog(q):
     while True:    
         new_log_sys = q.get()
         new_cur_sys = changeToCurrentTime(new_log_sys, 'sys')
         #print('============', new_cur_sys)
-        syslog_client.ingest_messages([new_cur_sys])
+        syslog_client.ingest_messages([new_cur_sys], None, {'source_type': 'dummy-syslog'})
 
 try:
     _thread.start_new_thread(get_new_line_accesslog, (accesslog_q,)) 
